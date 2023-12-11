@@ -15,17 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 URL::forceScheme('https');
 
-// returns the home page with all posts
-Route::get('/', PostController::class .'@index')->name('posts.index');
+// returns the home page with all users
+Route::get('/', UserController::class .'@index')->name('users.index');
 // returns the form for adding a post
-Route::get('/posts/create', PostController::class . '@create')->name('posts.create');
+Route::get('/users/create', UserController::class . '@create')->name('users.create');
 // adds a post to the database
-Route::post('/posts', PostController::class .'@store')->name('posts.store');
+Route::post('/users', UserController::class .'@store')->name('users.store');
 // returns a page that shows a full post
-Route::get('/posts/{post}', PostController::class .'@show')->name('posts.show');
+Route::get('/users/{post}', UserController::class .'@show')->name('users.show');
 // returns the form for editing a post
-Route::get('/posts/{post}/edit', PostController::class .'@edit')->name('posts.edit');
+Route::get('/users/{post}/edit', UserController::class .'@edit')->name('users.edit');
 // updates a post
-Route::put('/posts/{post}', PostController::class .'@update')->name('posts.update');
+Route::put('/users/{post}', UserController::class .'@update')->name('users.update');
 // deletes a post
-Route::delete('/posts/{post}', PostController::class .'@destroy')->name('posts.destroy');
+Route::delete('/users/{post}', UserController::class .'@destroy')->name('users.destroy');

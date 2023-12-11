@@ -36,6 +36,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        /*
         $request->validate([
             'user' => 'required|max:255',
             'email' => 'required',
@@ -48,7 +49,36 @@ class UserController extends Controller
         $user = User::create($request->all());
        return redirect()->route('users.index')
            ->with('success', 'Usuario creado correctamente.');
-    }
+        */
+        $rules = array(
+            'user' => 'required|max:255',
+            'email' => 'required',
+            'password' => 'required|string|min:8',
+            'nombre_completo' => 'required|max:255',
+            'edad' => 'required',
+            'sexo' => 'required',
+            'direccion' => 'required|max:255'
+        );
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails()) {
+            return Redirect::to('users/create')
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            // store
+            $user = new user;
+            $user->username = Input::get('username');
+            $user->email = Input::get('email');
+            $user->nombre_ompleto = Input::get('nombre_completo');
+            $user->edad = Input::get('edad');
+            $user->sexo = Input::get('sexo');
+            $user->direccion = Input::get('direccion');
+            $user->save();
+
+            // redirect
+            Session::flash('message', 'Usuario creado con éxito!');
+            return Redirect::to('users');
+        }
 
     /**
      * Display the specified resource.
