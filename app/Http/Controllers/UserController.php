@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Doctrine\DBAL\Schema\View;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        return View::make('users.index')->with('users', $users);
     }
 
     /**
@@ -24,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return View::make('users.create');
     }
 
     /**
@@ -35,6 +36,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'user' => 'required|max:255',
+            'email' => 'required',
+            'password' => 'required|string|min:8',
+            'nombre_completo' => 'required|max:255',
+            'edad' => 'required',
+            'sexo' => 'required',
+            'direccion' => 'required|max:255'
+        ]);
         $user = User::create($request->all());
        return redirect()->route('users.index')
            ->with('success', 'Usuario creado correctamente.');
